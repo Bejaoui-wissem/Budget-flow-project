@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{baseUrl}}/api/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{email}}",
+      "motDePasse": "{{password}}"
+    }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200", function () { pm.response.to.have.status(200); });
+      var j = pm.response.json();
+      pm.test("Returns token and user", function () { pm.expect(j).to.have.property("token"); pm.expect(j).to.have.property("user"); });
+      pm.collectionVariables.set("token", j.token);
+    language: text/javascript
+order: 2000

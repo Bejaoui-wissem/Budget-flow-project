@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "BudgetFlow (Main)",
+      "request": "launch",
+      "mainClass": "tn.enicarthage.budgetflow.Main",
+      "projectName": "budgetflow",
+      "console": "integratedTerminal",
+      "env": {
+        "DB_URL": "jdbc:mysql://localhost:3306/budgetflow?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+        "DB_USER": "root",
+        "DB_PASSWORD": "",
+        "JWT_SECRET": "changez-moi-par-une-longue-phrase-secrete",
+        "PORT": "8081"
+      }
+    }
+  ]
+}

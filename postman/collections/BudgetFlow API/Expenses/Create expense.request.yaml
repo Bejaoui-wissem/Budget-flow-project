@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{baseUrl}}/api/expenses"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "montant": 15.5,
+      "date": "2026-10-02",
+      "description": "Taxi",
+      "modePaiement": "Espèces",
+      "categoryId": {{categoryId}}
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 201", function () { pm.response.to.have.status(201); });
+      pm.collectionVariables.set("expenseId", pm.response.json().id);
+    language: text/javascript
+order: 1000

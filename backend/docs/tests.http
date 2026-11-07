@@ -1,0 +1,65 @@
+### Tests de l'API BudgetFlow (extension "REST Client" : cliquer sur "Send Request")
+@host = http://localhost:8080
+
+### 1. Inscription
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{ "nom": "Ben", "prenom": "Afrah", "email": "afrah@test.tn",
+  "motDePasse": "motdepasse1", "confirmationMotDePasse": "motdepasse1" }
+
+### 2. Connexion (le jeton est mémorisé pour les requêtes suivantes)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "afrah@test.tn", "motDePasse": "motdepasse1" }
+
+###
+@token = {{login.response.body.token}}
+
+### 3. Utilisateur connecté
+GET {{host}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### 4. Accès sans jeton -> 401
+GET {{host}}/api/expenses
+
+### 5. Catégories (10 par défaut)
+GET {{host}}/api/categories
+Authorization: Bearer {{token}}
+
+### 6. CREATE : ajouter une dépense
+POST {{host}}/api/expenses
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "montant": 15.5, "date": "2026-10-02", "description": "Taxi",
+  "modePaiement": "Espèces", "categoryId": 2 }
+
+### 7. READ : liste (filtres et tri facultatifs)
+GET {{host}}/api/expenses?sort=montant&order=desc
+Authorization: Bearer {{token}}
+
+### 8. READ : une dépense
+GET {{host}}/api/expenses/1
+Authorization: Bearer {{token}}
+
+### 9. UPDATE : modifier la dépense 1
+PUT {{host}}/api/expenses/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "montant": 18, "date": "2026-10-02", "description": "Taxi aéroport",
+  "modePaiement": "Carte", "categoryId": 2 }
+
+### 10. DELETE : supprimer la dépense 1
+DELETE {{host}}/api/expenses/1
+Authorization: Bearer {{token}}
+
+### 11. Validation : montant négatif -> 400
+POST {{host}}/api/expenses
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "montant": -5, "date": "2026-10-02", "categoryId": 1 }

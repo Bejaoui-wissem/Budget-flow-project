@@ -1,0 +1,16 @@
+$kind: collection
+description: "REST API for BudgetFlow (Java, JWT). Run in order with the Collection Runner: Login stores {{token}}, creates store {{categoryId}} / {{expenseId}}."
+variables:
+  baseUrl: http://localhost:8080
+  email: afrah@test.tn
+  password: motdepasse1
+  token: ""
+  categoryId: ""
+  defaultCategoryId: ""
+  expenseId: ""
+auth:
+  - id: ddecc3ed-235a-45cb-9787-a96119d9a14f
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{token}}"

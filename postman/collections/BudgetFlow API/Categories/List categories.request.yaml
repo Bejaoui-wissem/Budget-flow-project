@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 200", function () { pm.response.to.have.status(200); });
+      var l = pm.response.json();
+      pm.test("Is array", function () { pm.expect(l).to.be.an("array"); });
+      if (l.length) pm.collectionVariables.set("defaultCategoryId", l[0].id);
+    language: text/javascript
+order: 1000
